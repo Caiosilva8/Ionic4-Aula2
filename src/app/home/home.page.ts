@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-home',
@@ -7,4 +9,25 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
+  @ViewChild('email') email;
+  @ViewChild('senha') senha;
+
+  constructor(public router : Router,
+              public fire : AngularFireAuth){
+  }
+  
+  logar(){
+    this.fire.auth.signInWithEmailAndPassword(this.email.value,this.senha.value)
+    .then(()=>{
+      console.log('Logado com Sucesso');
+      this.router.navigate(['/list']);
+    })
+    .catch(()=>{
+      console.log('Login Inválido');
+    })
+  }
+
+  cadastrar(){
+    console.log('Ok')
+  }
 }
